@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class PlayerSetupController : GlobalEventListener
 {
+    [SerializeField] private Camera sceneCamera;
     [SerializeField] private GameObject setupPanel;
+
+    public Camera SceneCamera => sceneCamera;
 
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
     {
@@ -33,5 +36,6 @@ public class PlayerSetupController : GlobalEventListener
     {
         SpawnPlayerEvent evnt = SpawnPlayerEvent.Create(GlobalTargets.OnlyServer); // TODO GlobalTargets need read
         evnt.Send();
+        setupPanel.SetActive(false);
     }
 }
