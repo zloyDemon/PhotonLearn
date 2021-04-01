@@ -11,6 +11,8 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     private bool right;
     private float yaw;
     private float pitch;
+    private bool jump;
+
     private bool hasControl;
     private float mouseSensitivity = 5f;
 
@@ -48,6 +50,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         backward = Input.GetKey(KeyCode.S);
         left = Input.GetKey(KeyCode.A);
         right = Input.GetKey(KeyCode.D);
+        jump = Input.GetKey(KeyCode.Space);
 
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         yaw %= 360;
@@ -64,9 +67,10 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Right = right;
         input.Yaw = yaw;
         input.Pitch = pitch;
+        input.Jump = jump;
 
         entity.QueueInput(input);
-        playerMotor.ExecutedCommand(forward, backward, left, right, yaw, pitch);
+        playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch);
     }
 
     public override void ExecuteCommand(Command command, bool resetState)
@@ -83,7 +87,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
 
             if (!entity.HasControl)
             {
-                motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right,
+                motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right, cmd.Input.Jump,
                     cmd.Input.Yaw, cmd.Input.Pitch);
             }
 
