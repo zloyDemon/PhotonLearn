@@ -24,7 +24,12 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     public override void Attached()
     {
         state.SetTransforms(state.Transform, transform);
-        hasControl = entity.HasControl;
+        if (entity.HasControl)
+        {
+            hasControl = true;
+            GUIController.Current.Show(true);
+        }
+
         Init(hasControl);
         playerMotor.Init(hasControl);
     }

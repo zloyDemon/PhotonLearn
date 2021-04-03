@@ -15,11 +15,16 @@ public class PlayerMotor : EntityBehaviour<IPhysicState>
     private Vector3 lastServerPos = Vector3.zero;
     private bool firstState = true;
 
-    private NetworkRigidbody networkBody;
     private bool jumpPressed = false;
     private float jumpForce = 9f;
+
     private bool isGrounded = false;
     private float maxAngle = 45f;
+
+    [SerializeField]
+    private int totalLife = 250;
+
+    public int TotalLife => totalLife;
 
     private void Awake()
     {
