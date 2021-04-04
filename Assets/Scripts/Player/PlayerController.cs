@@ -1,10 +1,12 @@
 ﻿using System;
 using Bolt;
 using UnityEngine;
+using Random = System.Random;
 
 public class PlayerController : EntityBehaviour<IPhysicState>
 {
     private PlayerMotor playerMotor;
+    private PlayerWeapons playerWeapons;
     private bool forward;
     private bool backward;
     private bool left;
@@ -13,12 +15,18 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     private float pitch;
     private bool jump;
 
+    private bool fire;
+    private bool aiming;
+    private bool reload;
+    private int seed = 0;
+
     private bool hasControl;
     private float mouseSensitivity = 5f;
 
     private void Awake()
     {
         playerMotor = GetComponent<PlayerMotor>();
+        playerWeapons = GetComponent<PlayerWeapons>();
     }
 
     public override void Attached()
@@ -32,6 +40,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
 
         Init(hasControl);
         playerMotor.Init(hasControl);
+        playerWeapons.Init();
     }
 
     public void Init(bool isMine)
@@ -57,6 +66,12 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         right = Input.GetKey(KeyCode.D);
         jump = Input.GetKey(KeyCode.Space);
 
+        fire = Input.GetMouseButton(0);
+        if (fire)
+            seed = UnityEngine.Random.Range(0, 1023);
+        aiming = Input.GetMouseButton(1);
+        reload = Input.GetKey(KeyCode.R);
+
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         yaw %= 360;
         pitch += -Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -74,8 +89,14 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Pitch = pitch;
         input.Jump = jump;
 
+        input.Fire = fire;
+        input.Scope = aiming;
+        input.Reload = reload;
+        input.Seed = seed;
+
         entity.QueueInput(input);
         playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch);
+        playerWeapons.ExecuteCommand(fire, aiming, reload, seed);
     }
 
     public override void ExecuteCommand(Command command, bool resetState)
@@ -94,6 +115,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
             {
                 motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right, cmd.Input.Jump,
                     cmd.Input.Yaw, cmd.Input.Pitch);
+                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.Input.Seed);
             }
 
             cmd.Result.Position = motorState.position;

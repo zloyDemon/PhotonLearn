@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Bolt;
 using UnityEngine;
 
-public class PlayerMotor : EntityBehaviour<IPhysicState>
+public class PlayerMotor : EntityBehaviour<IPlayerState>
 {
     [SerializeField]
     private Camera cam = null;
@@ -24,11 +24,14 @@ public class PlayerMotor : EntityBehaviour<IPhysicState>
     [SerializeField]
     private int totalLife = 250;
 
+    private SphereCollider headCollider;
+
     public int TotalLife => totalLife;
 
     private void Awake()
     {
         networkRigidbody = GetComponent<NetworkRigidbody>();
+        headCollider = GetComponent<SphereCollider>();
     }
 
     public void Init(bool isMine)
@@ -130,6 +133,32 @@ public class PlayerMotor : EntityBehaviour<IPhysicState>
             }
 
             transform.position += (lastServerPos - transform.position) * 0.5f;
+        }
+    }
+
+    public bool IsHeadshot(Collider c)
+    {
+        return c == headCollider;
+    }
+
+    public void Life(PlayerMotor killer, int life)
+    {
+        if (entity.IsOwner)
+        {
+            int value = state.LifePoints + life;
+
+            if (value < 0)
+            {
+                state.LifePoints = 0;
+            }else if(value > totalLife)
+
+            {
+                state.LifePoints = totalLife;
+            }
+            else
+            {
+                state.LifePoints = value;
+            }
         }
     }
 
