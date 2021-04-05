@@ -20,4 +20,9 @@ public class PlayerWeapons : MonoBehaviour
     {
         weapons.ExecuteCommand(fire, aiming, reload, seed);
     }
+
+    public void FireEffect(int seed, float precision)
+    {
+        weapons.FireEffect(seed, precision);
+    }
 }
