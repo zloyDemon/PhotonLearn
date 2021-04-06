@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -31,8 +32,28 @@ public class Weapon : MonoBehaviour
     }
 
     public WeaponStats WeaponStat => weaponStat;
-    public int CurrentAmmo => currentAmmo;
-    public int TotalAmmo => currentTotalAmmo;
+
+
+    public int CurrentAmmo
+    {
+        get => currentAmmo;
+        set
+        {
+            if (playerMotor.entity.IsOwner)
+                playerMotor.state.Weapons[playerWeapons.WeaponIndex].CurrentAmmo = value;
+            currentAmmo = value;
+        }
+    }
+
+    public int TotalAmmo
+    {
+        get => currentTotalAmmo;
+        set
+        {
+            if(playerMotor.entity.IsOwner)
+                playerMotor.state.Weapons[playerWeapons.WeaponIndex].TotalAmmo = value;
+        }
+    }
 
     public virtual void Init(PlayerWeapons pw)
     {
@@ -46,6 +67,32 @@ public class Weapon : MonoBehaviour
 
         currentAmmo = weaponStat.magazin;
         currentTotalAmmo = weaponStat.totalMagazin;
+    }
+
+    private void OnEnable()
+    {
+        if (playerWeapons)
+        {
+            if (playerWeapons.entity.IsControllerOrOwner)
+            {
+                if(currentAmmo == 0)
+                    Reload();
+            }
+
+            if (playerWeapons.entity.HasControl)
+            {
+                GUIController.Current.UpdateAmmo(currentAmmo, currentTotalAmmo);
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (isReloading)
+        {
+            isReloading = false;
+            StopCoroutine(reloadCrt);
+        }
     }
 
     public virtual void ExecuteCommand(bool fire, bool aiming, bool reload, int seed)
@@ -155,6 +202,13 @@ public class Weapon : MonoBehaviour
                 trail.SetPosition(1, r.direction * weaponStat.maxRange + camera.position);
             }
         }
+    }
+
+    public virtual void InitAmmo(int current, int total)
+    {
+        currentAmmo = current;
+        currentTotalAmmo = total;
+        GUIController.Current.UpdateAmmo(current, total);
     }
 
     private void Reload()

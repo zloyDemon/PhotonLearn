@@ -18,9 +18,16 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     private bool fire;
     private bool aiming;
     private bool reload;
+    private int wheel = 0;
 
     private bool hasControl;
     private float mouseSensitivity = 5f;
+
+    public int Wheel
+    {
+        get => wheel;
+        set => wheel = value;
+    }
 
     private void Awake()
     {
@@ -74,6 +81,11 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         yaw %= 360;
         pitch += -Input.GetAxis("Mouse Y") * mouseSensitivity;
         pitch = Mathf.Clamp(pitch, -85, 85);
+
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            wheel = playerWeapons.CalculateIndex(Input.GetAxis("Mouse ScrollWheel"));
+        }
     }
 
     public override void SimulateController()
@@ -90,10 +102,11 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Fire = fire;
         input.Scope = aiming;
         input.Reload = reload;
+        input.Wheel = wheel;
 
         entity.QueueInput(input);
         playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch);
-        playerWeapons.ExecuteCommand(fire, aiming, reload, BoltNetwork.ServerFrame % 1024);
+        playerWeapons.ExecuteCommand(fire, aiming, reload, wheel, BoltNetwork.ServerFrame % 1024);
     }
 
     public override void ExecuteCommand(Command command, bool resetState)
@@ -112,7 +125,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
             {
                 motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right, cmd.Input.Jump,
                     cmd.Input.Yaw, cmd.Input.Pitch);
-                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.ServerFrame % 1024);
+                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.Input.Wheel, cmd.ServerFrame % 1024);
             }
 
             cmd.Result.Position = motorState.position;
