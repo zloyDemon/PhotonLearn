@@ -21,4 +21,6 @@ public class WeaponStats : ScriptableObject
     public GameObject trail;
     public GameObject decal;
     public GameObject impact;
+    [Space(10)]
+    public GameObject drop;
 }

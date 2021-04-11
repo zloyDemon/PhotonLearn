@@ -65,8 +65,8 @@ public class Weapon : MonoBehaviour
         if (!playerMotor.entity.HasControl)
             renderer.gameObject.layer = 0;
 
-        currentAmmo = weaponStat.magazin;
-        currentTotalAmmo = weaponStat.totalMagazin;
+        CurrentAmmo = weaponStat.magazin;
+        TotalAmmo = weaponStat.totalMagazin;
     }
 
     private void OnEnable()
@@ -75,13 +75,13 @@ public class Weapon : MonoBehaviour
         {
             if (playerWeapons.entity.IsControllerOrOwner)
             {
-                if(currentAmmo == 0)
+                if(CurrentAmmo == 0)
                     Reload();
             }
 
             if (playerWeapons.entity.HasControl)
             {
-                GUIController.Current.UpdateAmmo(currentAmmo, currentTotalAmmo);
+                GUIController.Current.UpdateAmmo(CurrentAmmo, TotalAmmo);
             }
         }
     }
@@ -99,7 +99,7 @@ public class Weapon : MonoBehaviour
     {
         if (!isReloading)
         {
-            if (reload && currentAmmo != weaponStat.magazin && currentTotalAmmo > 0)
+            if (reload && CurrentAmmo != weaponStat.magazin && TotalAmmo > 0)
             {
                 Reload();
             }
@@ -115,7 +115,7 @@ public class Weapon : MonoBehaviour
 
     protected virtual void Fire(int seed)
     {
-        if (currentAmmo >= weaponStat.ammoPerShot)
+        if (CurrentAmmo >= weaponStat.ammoPerShot)
         {
             if (fireFrame + fireInterval <= BoltNetwork.ServerFrame)
             {
@@ -128,7 +128,7 @@ public class Weapon : MonoBehaviour
                 if (playerCallback.entity.HasControl)
                     FireEffect(seed, weaponStat.precision);
 
-                currentAmmo -= weaponStat.ammoPerShot;
+                CurrentAmmo -= weaponStat.ammoPerShot;
                 UnityEngine.Random.InitState(seed);
 
                 dmgCounter = new Dictionary<PlayerMotor, int>();
@@ -161,7 +161,7 @@ public class Weapon : MonoBehaviour
                     pm.Life(playerMotor, -dmgCounter[pm]);
             }
         }
-        else if(currentTotalAmmo > 0)
+        else if(TotalAmmo > 0)
             Reload();
     }
 
@@ -206,9 +206,10 @@ public class Weapon : MonoBehaviour
 
     public virtual void InitAmmo(int current, int total)
     {
-        currentAmmo = current;
-        currentTotalAmmo = total;
-        GUIController.Current.UpdateAmmo(current, total);
+        CurrentAmmo = current;
+        TotalAmmo = total;
+        if (playerMotor.entity.HasControl)
+            GUIController.Current.UpdateAmmo(current, total);
     }
 
     private void Reload()
@@ -220,10 +221,10 @@ public class Weapon : MonoBehaviour
     {
         isReloading = true;
         yield return new WaitForSeconds(weaponStat.reloadTime);
-        currentTotalAmmo += currentAmmo;
+        TotalAmmo += CurrentAmmo;
         int ammo = Mathf.Min(currentTotalAmmo, weaponStat.magazin);
-        currentTotalAmmo -= ammo;
-        currentAmmo = ammo;
+        TotalAmmo -= ammo;
+        CurrentAmmo = ammo;
         isReloading = false;
     }
 }

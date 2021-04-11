@@ -24,11 +24,20 @@ public class PlayerCallback : EntityEventListener<IPlayerState>
         state.AddCallback("WeaponIndex", UpdateWeaponIndex);
         state.AddCallback("Weapons[].CurrentAmmo", UpdateWeaponAmmo);
         state.AddCallback("Weapons[].TotalAmmo", UpdateWeaponAmmo);
+        state.AddCallback("Weapons[].ID", UpdateWeaponList);
 
         if (entity.IsOwner)
         {
             state.LifePoints = playerMotor.TotalLife;
         }
+    }
+
+    private void UpdateWeaponList(IState state1, string propertypath, ArrayIndices arrayindices)
+    {
+        int index = arrayindices[0];
+        IPlayerState s = (IPlayerState) state;
+        if(s.Weapons[index].ID == -1)
+            playerWeapons.RemoveWeapon(index);
     }
 
     private void UpdateWeaponAmmo(IState state1, string propertypath, ArrayIndices arrayindices)

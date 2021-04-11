@@ -25,3 +25,4 @@ MonoBehaviour:
   trail: {fileID: 5087797881622562715, guid: 41f61bf92d8b8f6468e376de8ba54ed4, type: 3}
   decal: {fileID: 1997829524777743707, guid: b7e53d787fef4c24da5b9e37f4fd79d4, type: 3}
   impact: {fileID: 7079202887095667122, guid: a79706970c9279e499713c60939080b1, type: 3}
+  drop: {fileID: 7878693896665472775, guid: aea3ac669ecd2194d9429218c4bc0436, type: 3}

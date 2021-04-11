@@ -19,6 +19,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     private bool aiming;
     private bool reload;
     private int wheel = 0;
+    private bool drop;
 
     private bool hasControl;
     private float mouseSensitivity = 5f;
@@ -76,6 +77,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
 
         aiming = Input.GetMouseButton(1);
         reload = Input.GetKey(KeyCode.R);
+        drop = Input.GetKey(KeyCode.G);
 
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         yaw %= 360;
@@ -98,6 +100,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Yaw = yaw;
         input.Pitch = pitch;
         input.Jump = jump;
+        input.Drop = drop;
 
         input.Fire = fire;
         input.Scope = aiming;
@@ -106,7 +109,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
 
         entity.QueueInput(input);
         playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch);
-        playerWeapons.ExecuteCommand(fire, aiming, reload, wheel, BoltNetwork.ServerFrame % 1024);
+        playerWeapons.ExecuteCommand(fire, aiming, reload, wheel, BoltNetwork.ServerFrame % 1024, drop);
     }
 
     public override void ExecuteCommand(Command command, bool resetState)
@@ -125,7 +128,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
             {
                 motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right, cmd.Input.Jump,
                     cmd.Input.Yaw, cmd.Input.Pitch);
-                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.Input.Wheel, cmd.ServerFrame % 1024);
+                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.Input.Wheel, cmd.ServerFrame % 1024, cmd.Input.Drop);
             }
 
             cmd.Result.Position = motorState.position;
