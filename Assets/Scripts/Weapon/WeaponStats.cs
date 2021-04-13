@@ -6,6 +6,8 @@ using UnityEngine;
 public class WeaponStats : ScriptableObject
 {
     [Space(40)]
+    public WeaponId ID;
+    [Space(40)]
     public string weaponName;
     public float reloadTime = 1f;
     public int magazin = 30;

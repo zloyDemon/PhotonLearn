@@ -38,6 +38,13 @@ public class GUIController : MonoBehaviour
 
     public void UpdateAmmo(int current, int total)
     {
+        if (!uiAmmoPanel.gameObject.activeSelf)
+           uiAmmoPanel.gameObject.SetActive(true);
         uiAmmoPanel.UpdateAmmo(current, total);
+    }
+
+    public void HideAmmo()
+    {
+        uiAmmoPanel.gameObject.SetActive(false);
     }
 }

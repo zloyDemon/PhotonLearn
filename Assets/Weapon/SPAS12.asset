@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a2585c81416c441b5cd9710e87253a, type: 3}
   m_Name: SPAS12
   m_EditorClassIdentifier: 
+  ID: 5
   weaponName: 
   reloadTime: 1
   magazin: 30

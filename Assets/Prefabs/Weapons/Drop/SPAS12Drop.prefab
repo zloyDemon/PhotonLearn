@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3588378652421808059}
   - component: {fileID: 2491965490846138987}
   - component: {fileID: 6930496644746204611}
+  - component: {fileID: -6102741779187633504}
   m_Layer: 0
   m_Name: SPAS12Drop
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc4c1a62079f84ea0ec6e9ccec9a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  render: {fileID: 8091580528600769805}
 --- !u!114 &4915393431289689092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +120,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18988037, y: 0.69117737, z: 3.4080324}
   m_Center: {x: 0.011199951, y: 0.05594635, z: 0.81461287}
+--- !u!135 &-6102741779187633504
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856439869328794354}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7573345674341600318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,6 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da5e79e8543a03e498d27337d5ceb266, type: 3}
+--- !u!1 &8091580528600769805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1824798276992903475, guid: da5e79e8543a03e498d27337d5ceb266, type: 3}
+  m_PrefabInstance: {fileID: 7573345674341600318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5048614648994174750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3389422188200123168, guid: da5e79e8543a03e498d27337d5ceb266, type: 3}

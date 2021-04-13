@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7721959180019854363}
   - component: {fileID: 3803989138739776916}
   - component: {fileID: 346055041555078412}
+  - component: {fileID: 3206814882542007179}
   m_Layer: 0
   m_Name: RevolverDrop
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcc4c1a62079f84ea0ec6e9ccec9a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  render: {fileID: 7809602473281127307}
 --- !u!114 &6167904970312380819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +120,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.16156006, y: 0.4290924, z: 0.77935696}
   m_Center: {x: 0.0055236816, y: 0.009651184, z: 0.2399497}
+--- !u!135 &3206814882542007179
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878693896665472775}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &7810644152101617381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,6 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c683c8977ec03e4093f2943162f1ab4, type: 3}
+--- !u!1 &7809602473281127307 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1604650248748398, guid: 3c683c8977ec03e4093f2943162f1ab4, type: 3}
+  m_PrefabInstance: {fileID: 7810644152101617381}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7815034594273984515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4626708622261990, guid: 3c683c8977ec03e4093f2943162f1ab4, type: 3}

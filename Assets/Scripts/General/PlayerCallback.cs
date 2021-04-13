@@ -38,6 +38,8 @@ public class PlayerCallback : EntityEventListener<IPlayerState>
         IPlayerState s = (IPlayerState) state;
         if(s.Weapons[index].ID == -1)
             playerWeapons.RemoveWeapon(index);
+        else
+            Bolt.Utils.BoltConsole.Write(((WeaponId)s.Weapons[index].ID).ToString());
     }
 
     private void UpdateWeaponAmmo(IState state1, string propertypath, ArrayIndices arrayindices)

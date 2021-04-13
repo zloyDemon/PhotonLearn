@@ -11,6 +11,7 @@ public class PlayerMotor : EntityBehaviour<IPlayerState>
     private NetworkRigidbody networkRigidbody = null;
 
     private float speed = 7f;
+    private float speedBase = 7f;
 
     private Vector3 lastServerPos = Vector3.zero;
     private bool firstState = true;
@@ -27,6 +28,13 @@ public class PlayerMotor : EntityBehaviour<IPlayerState>
     private SphereCollider headCollider;
 
     public int TotalLife => totalLife;
+    public float Speed
+    {
+        get => speed;
+        set => speed = value;
+    }
+
+    public float SpeedBase => speedBase;
 
     private void Awake()
     {
