@@ -22,9 +22,9 @@ public class PlayerCallback : EntityEventListener<IPlayerState>
         state.AddCallback("LifePoints", UpdatePlayerLife);
         state.AddCallback("Pitch", playerMotor.SetPitch);
         state.AddCallback("WeaponIndex", UpdateWeaponIndex);
+        state.AddCallback("Weapons[].ID", UpdateWeaponList);
         state.AddCallback("Weapons[].CurrentAmmo", UpdateWeaponAmmo);
         state.AddCallback("Weapons[].TotalAmmo", UpdateWeaponAmmo);
-        state.AddCallback("Weapons[].ID", UpdateWeaponList);
 
         if (entity.IsOwner)
         {
@@ -39,7 +39,7 @@ public class PlayerCallback : EntityEventListener<IPlayerState>
         if(s.Weapons[index].ID == -1)
             playerWeapons.RemoveWeapon(index);
         else
-            Bolt.Utils.BoltConsole.Write(((WeaponId)s.Weapons[index].ID).ToString());
+            playerWeapons.AddWeapon((WeaponId)s.Weapons[index].ID);
     }
 
     private void UpdateWeaponAmmo(IState state1, string propertypath, ArrayIndices arrayindices)

@@ -10,8 +10,11 @@ public class PlayerWeapons : EntityBehaviour<IPlayerState>
     [SerializeField]
     private Weapon[] weapons = null;
 
-    private int weaponIndex = 0;
+    private int weaponIndex = 1;
     private bool dropPressed;
+
+    [SerializeField] private WeaponId primaryWeapon = WeaponId.None;
+    [SerializeField] private WeaponId secondaryWeapon = WeaponId.None;
 
     private WeaponId primary = WeaponId.None;
     private WeaponId secondary = WeaponId.None;
@@ -20,23 +23,24 @@ public class PlayerWeapons : EntityBehaviour<IPlayerState>
 
     public Camera Cam { get => cam; }
 
+    [SerializeField] private Transform weaponTransform = null;
+    [SerializeField] private GameObject[] weaponPrefabs = null;
+
     public void Init()
     {
-        foreach (var weapon in weapons)
+        if (entity.IsOwner)
         {
-            if (weapon)
+            for (int i = 0; i < 4; i++)
             {
-                weapon.Init(this);
-                if (weapons[weaponIndex].WeaponStat.ID < WeaponId.SecondaryEnd)
-                    secondary = weapons[weaponIndex].WeaponStat.ID;
-                else
-                    primary = weapons[weaponIndex].WeaponStat.ID;
-                weaponIndex++;
+                state.Weapons[i].CurrentAmmo = -1;
             }
+
+            AddWeaponEvent(primaryWeapon);
+            AddWeaponEvent(secondaryWeapon);
         }
 
-        weaponIndex = 0;
-        SetWeapon(weaponIndex);
+        StartCoroutine(SetWeapon());
+        weapons[0].Init(this, 0);
     }
 
     public void ExecuteCommand(bool fire, bool aiming, bool reload, int wheel, int seed, bool drop)
@@ -61,7 +65,8 @@ public class PlayerWeapons : EntityBehaviour<IPlayerState>
 
     public void InitAmmo(int i, int current, int total)
     {
-        weapons[i].InitAmmo(current, total);
+        if(weapons[i] && i != 0)
+            weapons[i].InitAmmo(current, total);
     }
 
     public void SetWeapon(int index)
@@ -187,5 +192,53 @@ public class PlayerWeapons : EntityBehaviour<IPlayerState>
             state.Weapons[2].CurrentAmmo = ca;
             state.Weapons[2].TotalAmmo = ta;
         }
+    }
+
+    public void AddWeapon(WeaponId id)
+    {
+        if (id == WeaponId.None)
+            return;
+
+        GameObject prefab = null;
+        foreach (var w in weaponPrefabs)
+        {
+            if (w.GetComponent<Weapon>().WeaponStat.ID == id)
+            {
+                prefab = w;
+                break;
+            }
+        }
+
+        prefab = Instantiate(prefab, weaponTransform.position, Quaternion.LookRotation(weaponTransform.forward),
+            weaponTransform);
+
+        if (id < WeaponId.SecondaryEnd)
+        {
+            secondary = id;
+            weapons[1] = prefab.GetComponent<Weapon>();
+            prefab.GetComponent<Weapon>().Init(this, 1);
+        }
+        else
+        {
+            primary = id;
+            weapons[2] = prefab.GetComponent<Weapon>();
+            prefab.GetComponent<Weapon>().Init(this, 2);
+        }
+    }
+
+    public void AddWeaponEvent(WeaponId id)
+    {
+        if (id == WeaponId.None)
+            return;
+
+        int i = (id < WeaponId.SecondaryEnd) ? 1 : 2;
+        state.Weapons[i].ID = (int) id;
+    }
+
+    IEnumerator SetWeapon()
+    {
+        while (weapons[weaponIndex] == null)
+            yield return new WaitForEndOfFrame();
+        SetWeapon(weaponIndex);
     }
 }

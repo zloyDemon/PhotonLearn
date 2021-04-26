@@ -55,18 +55,31 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public virtual void Init(PlayerWeapons pw)
+    public virtual void Init(PlayerWeapons pw, int index)
     {
         playerWeapons = pw;
         playerMotor = pw.GetComponent<PlayerMotor>();
         playerCallback = pw.GetComponent<PlayerCallback>();
         camera = playerWeapons.Cam.transform;
 
-        if (!playerMotor.entity.HasControl)
-            renderer.gameObject.layer = 0;
+        if (playerMotor.state.Weapons[index].CurrentAmmo != -1)
+        {
+            currentAmmo = playerMotor.state.Weapons[index].CurrentAmmo;
+            currentTotalAmmo = playerMotor.state.Weapons[index].TotalAmmo;
+        }
+        else
+        {
+            currentAmmo = weaponStat.magazin;
+            currentTotalAmmo = weaponStat.totalMagazin;
+            if (playerMotor.entity.IsOwner)
+            {
+                playerMotor.state.Weapons[index].CurrentAmmo = currentAmmo;
+                playerMotor.state.Weapons[index].TotalAmmo = currentTotalAmmo;
+            }
+        }
 
-        CurrentAmmo = weaponStat.magazin;
-        TotalAmmo = weaponStat.totalMagazin;
+        if (playerMotor.entity.HasControl)
+            renderer.gameObject.layer = 0;
     }
 
     private void OnEnable()
