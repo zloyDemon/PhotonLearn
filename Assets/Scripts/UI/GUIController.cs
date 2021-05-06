@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIController : MonoBehaviour
 {
@@ -20,6 +21,16 @@ public class GUIController : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private UICooldown skill = null;
+    [SerializeField]
+    private UICooldown grenade = null;
+    [SerializeField]
+    private Text energyCount = null;
+
+    public UICooldown Skill { get => skill; }
+    public UICooldown Grenade { get => grenade; }
+
     private void Start()
     {
         Show(false);
@@ -29,6 +40,9 @@ public class GUIController : MonoBehaviour
     {
         uiHealthBar.gameObject.SetActive(active);
         uiAmmoPanel.gameObject.SetActive(active);
+        skill.gameObject.SetActive(active);
+        grenade.gameObject.SetActive(active);
+        energyCount.gameObject.SetActive(active);
     }
 
     public void UpdateLife(int current, int total)
@@ -46,5 +60,12 @@ public class GUIController : MonoBehaviour
     public void HideAmmo()
     {
         uiAmmoPanel.gameObject.SetActive(false);
+    }
+
+    public void UpdateAbilityView(int i)
+    {
+        energyCount.text = i.ToString();
+        skill.UpdateCost(i);
+        grenade.UpdateCost(i);
     }
 }

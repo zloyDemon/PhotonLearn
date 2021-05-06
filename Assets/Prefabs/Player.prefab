@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 2371528995689516937}
   - component: {fileID: 1781818831723969713}
   - component: {fileID: 3459473948655597957}
+  - component: {fileID: 7939918907869182306}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -428,6 +429,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 558028789714872872}
   totalLife: 250
+  skill: {fileID: 7939918907869182306}
+  grenade: {fileID: 0}
 --- !u!114 &2371528995689516937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +482,19 @@ MonoBehaviour:
   - {fileID: 4123569531741935026, guid: aaabef52805ab7c4e87204c796b3907c, type: 3}
   - {fileID: 4123569531741935026, guid: f41b548f2a5463946bd5ec862275c51a, type: 3}
   - {fileID: 4123569531741935026, guid: 794e93f921ffe1a4eaad8932802fce80, type: 3}
+--- !u!114 &7939918907869182306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208926364145929335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a671cf5aa1ac1f4698fdfff2fee37fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 9051138727573193676}
 --- !u!1 &8676260083011525390
 GameObject:
   m_ObjectHideFlags: 0

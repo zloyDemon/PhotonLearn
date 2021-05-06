@@ -20,6 +20,8 @@ public class PlayerController : EntityBehaviour<IPhysicState>
     private bool reload;
     private int wheel = 0;
     private bool drop;
+    private bool ability1;
+    private bool ability2;
 
     private bool hasControl;
     private float mouseSensitivity = 5f;
@@ -79,6 +81,9 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         reload = Input.GetKey(KeyCode.R);
         drop = Input.GetKey(KeyCode.G);
 
+        ability1 = Input.GetKey(KeyCode.Q);
+        ability2 = Input.GetKey(KeyCode.E);
+
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         yaw %= 360;
         pitch += -Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -101,6 +106,8 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Pitch = pitch;
         input.Jump = jump;
         input.Drop = drop;
+        input.Ability1 = ability1;
+        input.Ability2 = ability2;
 
         input.Fire = fire;
         input.Scope = aiming;
@@ -108,7 +115,7 @@ public class PlayerController : EntityBehaviour<IPhysicState>
         input.Wheel = wheel;
 
         entity.QueueInput(input);
-        playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch);
+        playerMotor.ExecutedCommand(forward, backward, left, right, jump, yaw, pitch, ability1, ability2);
         playerWeapons.ExecuteCommand(fire, aiming, reload, wheel, BoltNetwork.ServerFrame % 1024, drop);
     }
 
@@ -126,9 +133,24 @@ public class PlayerController : EntityBehaviour<IPhysicState>
 
             if (!entity.HasControl)
             {
-                motorState = playerMotor.ExecutedCommand(cmd.Input.Forward, cmd.Input.Backward, cmd.Input.Left, cmd.Input.Right, cmd.Input.Jump,
-                    cmd.Input.Yaw, cmd.Input.Pitch);
-                playerWeapons.ExecuteCommand(cmd.Input.Fire, cmd.Input.Scope, cmd.Input.Reload, cmd.Input.Wheel, cmd.ServerFrame % 1024, cmd.Input.Drop);
+                motorState = playerMotor.ExecutedCommand(
+                    cmd.Input.Forward,
+                    cmd.Input.Backward,
+                    cmd.Input.Left,
+                    cmd.Input.Right,
+                    cmd.Input.Jump,
+                    cmd.Input.Yaw,
+                    cmd.Input.Pitch,
+                    cmd.Input.Ability1,
+                    cmd.Input.Ability2);
+
+                playerWeapons.ExecuteCommand(
+                    cmd.Input.Fire,
+                    cmd.Input.Scope,
+                    cmd.Input.Reload,
+                    cmd.Input.Wheel,
+                    cmd.ServerFrame % 1024,
+                    cmd.Input.Drop);
             }
 
             cmd.Result.Position = motorState.position;

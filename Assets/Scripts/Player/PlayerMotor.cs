@@ -27,6 +27,9 @@ public class PlayerMotor : EntityBehaviour<IPlayerState>
 
     private SphereCollider headCollider;
 
+    [SerializeField] private Ability skill = null;
+    [SerializeField] private Ability grenade = null;
+
     public int TotalLife => totalLife;
     public float Speed
     {
@@ -48,7 +51,7 @@ public class PlayerMotor : EntityBehaviour<IPlayerState>
             cam.gameObject.SetActive(true);
     }
 
-    public State ExecutedCommand(bool forward, bool backward, bool left, bool right, bool jump, float yaw, float pitch)
+    public State ExecutedCommand(bool forward, bool backward, bool left, bool right, bool jump, float yaw, float pitch, bool ability1, bool ability2)
     {
         Vector3 movingDir = Vector3.zero;
         if (forward ^ backward)
@@ -86,6 +89,11 @@ public class PlayerMotor : EntityBehaviour<IPlayerState>
         {
             state.Pitch = (int) pitch;
         }
+
+        if (skill)
+            skill.UpdateAbility(ability1);
+        if (grenade)
+            grenade.UpdateAbility(ability2);
 
         State stateMotor = new State();
         stateMotor.position = transform.position;
