@@ -307,6 +307,8 @@ GameObject:
   - component: {fileID: 1781818831723969713}
   - component: {fileID: 3459473948655597957}
   - component: {fileID: 7939918907869182306}
+  - component: {fileID: 745473634480780412}
+  - component: {fileID: 7853763720051072975}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -388,7 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: 7998dcb0-686a-47b3-8e7b-3fdce44ccff2
-  _prefabId: 1
+  _prefabId: 2
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -429,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 558028789714872872}
   totalLife: 250
-  skill: {fileID: 7939918907869182306}
+  skill: {fileID: 7853763720051072975}
   grenade: {fileID: 0}
 --- !u!114 &2371528995689516937
 MonoBehaviour:
@@ -443,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c005b28d4234934c9c468c3b405fc28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravityForce: 1
 --- !u!114 &1781818831723969713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +498,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 9051138727573193676}
+--- !u!114 &745473634480780412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208926364145929335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e94ac029fe7c6429fe575fb1408187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cam: {fileID: 9051138727573193676}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  _wallPreset: {fileID: 7568725149502742575, guid: 031b4e634221f97468dea1349f8ad713, type: 3}
+  _stateMachine: {fileID: 7299682421449029613, guid: 462c1a7cc168aaa448db2641a6ef20b2, type: 3}
+--- !u!114 &7853763720051072975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208926364145929335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9945f0fdd8125c0479a07b956fe15c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cam: {fileID: 9051138727573193676}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &8676260083011525390
 GameObject:
   m_ObjectHideFlags: 0

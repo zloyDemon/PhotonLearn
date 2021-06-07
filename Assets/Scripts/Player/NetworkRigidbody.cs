@@ -8,7 +8,7 @@ public class NetworkRigidbody : EntityBehaviour<IPhysicState>
 {
     private Vector3 moveVelocity;
     private Rigidbody rb;
-    private float gravityForce = 1f;
+    [SerializeField] private float gravityForce = 1f;
     private bool useGravity = true;
 
     public Vector3 MoveVelocity

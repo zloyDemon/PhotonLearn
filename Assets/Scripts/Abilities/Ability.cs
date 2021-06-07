@@ -5,35 +5,35 @@ using UnityEngine;
 
 public class Ability : EntityEventListener<IPlayerState>
 {
-    protected bool pressed = false;
-    protected bool buttonUp;
-    protected bool buttonDown;
+    protected bool _pressed = false;
+    protected bool _buttonUp;
+    protected bool _buttonDown;
 
-    protected int cooldown = 0;
-    protected float timer = 0;
-    protected int cost = 0;
-    protected UICooldown uiCooldown;
+    protected int _cooldown = 0;
+    protected float _timer = 0;
+    protected int _cost = 0;
+    protected UICooldown _uiCooldown;
 
-    protected int abilityInterval => cooldown * BoltNetwork.FramesPerSecond;
+    protected int _abilityInterval => _cooldown * BoltNetwork.FramesPerSecond;
 
     public virtual void UpdateAbility(bool button)
     {
-        buttonUp = false;
-        buttonDown = false;
+        _buttonUp = false;
+        _buttonDown = false;
         if (button)
         {
-            if (!pressed)
+            if (!_pressed)
             {
-                pressed = true;
-                buttonDown = true;
+                _pressed = true;
+                _buttonDown = true;
             }
         }
         else
         {
-            if (pressed)
+            if (_pressed)
             {
-                pressed = false;
-                buttonUp = true;
+                _pressed = false;
+                _buttonUp = true;
             }
         }
     }

@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: 9f5d7967-a29e-4ee9-991c-e7b983d2de16
-  _prefabId: 5
+  _prefabId: 7
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c005b28d4234934c9c468c3b405fc28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravityForce: 1
 --- !u!54 &2491965490846138987
 Rigidbody:
   m_ObjectHideFlags: 0
